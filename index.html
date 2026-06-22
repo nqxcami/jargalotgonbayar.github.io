@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Personal website for Jargal Otgonbayar." />
+    <title>Jargal Otgonbayar</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+      :root {
+        --bg: #07111f;
+        --bg-2: #0d1b2e;
+        --panel: rgba(11, 20, 35, 0.78);
+        --panel-border: rgba(255, 255, 255, 0.1);
+        --text: #edf2ff;
+        --muted: #a8b5d1;
+        --accent: #7ef0c1;
+        --accent-2: #8ab4ff;
+        --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: "Space Grotesk", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(126, 240, 193, 0.18), transparent 28%),
+          radial-gradient(circle at 85% 20%, rgba(138, 180, 255, 0.2), transparent 24%),
+          linear-gradient(160deg, var(--bg), var(--bg-2));
+        overflow-x: hidden;
+      }
+
+      .noise {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 90%);
+        opacity: 0.55;
+      }
+
+      .blob {
+        position: fixed;
+        border-radius: 999px;
+        filter: blur(40px);
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      .blob.one {
+        width: 280px;
+        height: 280px;
+        background: #7ef0c1;
+        top: -60px;
+        left: -50px;
+      }
+
+      .blob.two {
+        width: 320px;
+        height: 320px;
+        background: #8ab4ff;
+        bottom: -120px;
+        right: -80px;
+      }
+
+      .page {
+        position: relative;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+      }
+
+      .card {
+        width: min(960px, 100%);
+        padding: clamp(28px, 5vw, 56px);
+        border: 1px solid var(--panel-border);
+        border-radius: 28px;
+        background: var(--panel);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+        animation: floatIn 700ms ease-out both;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 35%);
+        pointer-events: none;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        color: var(--muted);
+        font: 500 0.9rem/1.2 "IBM Plex Mono", monospace;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 6px rgba(126, 240, 193, 0.15);
+      }
+
+      h1 {
+        margin: 22px 0 16px;
+        font-size: clamp(3rem, 9vw, 7rem);
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+        max-width: 10ch;
+      }
+
+      .lede {
+        margin: 0;
+        max-width: 62ch;
+        font-size: clamp(1.05rem, 2vw, 1.25rem);
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .tile {
+        padding: 18px 16px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.045);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .tile span {
+        display: block;
+        color: var(--muted);
+        font: 500 0.8rem/1.2 "IBM Plex Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .tile strong {
+        display: block;
+        margin-top: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #041018;
+        font-weight: 700;
+      }
+
+      .button.secondary {
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .footer {
+        margin-top: 28px;
+        color: var(--muted);
+        font: 400 0.95rem/1.6 "IBM Plex Mono", monospace;
+      }
+
+      @keyframes floatIn {
+        from {
+          opacity: 0;
+          transform: translateY(24px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .meta {
+          grid-template-columns: 1fr;
+        }
+
+        .card {
+          border-radius: 22px;
+        }
+
+        h1 {
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="noise"></div>
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+
+    <main class="page">
+      <section class="card" aria-labelledby="title">
+        <div class="eyebrow">Live portfolio site</div>
+        <h1 id="title">Jargal Otgonbayar</h1>
+        <p class="lede">
+          A clean starter homepage for a personal site, tuned for GitHub Pages and ready to
+          customize with your work, links, and contact info.
+        </p>
+
+        <div class="meta">
+          <div class="tile">
+            <span>Status</span>
+            <strong>Deployed on GitHub Pages</strong>
+          </div>
+          <div class="tile">
+            <span>Focus</span>
+            <strong>Modern, minimal, fast</strong>
+          </div>
+          <div class="tile">
+            <span>Next step</span>
+            <strong>Add your content and links</strong>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="button primary" href="mailto:hello@example.com">Contact</a>
+          <a class="button secondary" href="https://github.com/nqxcami/jargalotgonbayar.github.io" target="_blank" rel="noreferrer">GitHub repo</a>
+        </div>
+
+        <div class="footer">Built for jargalotgonbayar.github.io</div>
+      </section>
+    </main>
+  </body>
+</html>
